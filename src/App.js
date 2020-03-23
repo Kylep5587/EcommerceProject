@@ -6,7 +6,7 @@ import HomePage from './pages/homepage/component.homepage';
 import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/header.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
-import { auth } from './firebase/firebase.utils';
+import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 import Dashboard from './dashboard/Dashboard';
 
 class App extends React.Component {
@@ -26,9 +26,23 @@ class App extends React.Component {
   call it each time you want to check the state. This also means we need to close communication before App closes
   *****************************************************/
   componentDidMount() {
-    auth.onAuthStateChanged(user => {
-      this.setState({ currentUser: user })
-    })
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+      if (userAuth) {
+        const userRef = await createUserProfileDocument(userAuth); // checks if there is an entry for this user. If not, creates it
+
+        userRef.onSnapshot(snapShot => { // Gets data related to the user
+          this.setState({
+            currentUser: {
+              id: snapShot.id,
+              ...snapShot.data()
+            }
+          });
+        });
+      }
+      else {
+        this.setState({currentUser: userAuth}); // sets the current user to null if login attempt fails
+      }
+    });
   }
 
 
