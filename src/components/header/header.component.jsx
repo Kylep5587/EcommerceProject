@@ -8,11 +8,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { auth } from '../../firebase/firebase.utils';
+import CartIcon from '../cart-icon/cart-icon.component';
+import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 
 import './header.style.scss';
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 
-const Header = ({ currentUser }) => (
+const Header = ({ currentUser, hidden }) => (
     <div className='header'>
     <Link className='logo-container' to='/'>
       <Logo className='logo' />
@@ -33,12 +35,17 @@ const Header = ({ currentUser }) => (
           SIGN IN
         </Link>
       )}
+      <CartIcon />
     </div>
+    {
+      hidden ? null : <CartDropdown />
+    }
   </div>
 );
 
-const mapStateToProps = state => ({ // state is the top-level root reducer
-    currentUser: state.user.currentUser // points to root reducer -> user -> user reducer -> currentUser
+const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({ // Destructures user off of state and then current user off of user
+    currentUser,
+    hidden
 });
 
 export default connect(mapStateToProps)(Header);

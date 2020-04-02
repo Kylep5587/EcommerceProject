@@ -7,7 +7,9 @@ combineReducers will combine each reducer into a single object
 
 import { combineReducers } from 'redux';        // Imports the required method
 import userReducer from './user/user.reducer';  // Imports the user reducer
+import cartReducer from './cart/cart.reducer';
 
 export default combineReducers({
-    user: userReducer
+    user: userReducer,
+    cart: cartReducer
 });
