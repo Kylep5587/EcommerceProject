@@ -16,3 +16,9 @@ export const selectCartItemsCount = createSelector(
         (accumulatedQuantity, cartItem) => accumulatedQuantity + cartItem.quantity, 0
     )
 );
+
+// Used for hiding and showing the cart dropdown
+export const selectCartHidden = createSelector(
+    [selectCart],
+    cart => cart.hidden
+);

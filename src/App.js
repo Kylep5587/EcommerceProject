@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import HomePage from './pages/homepage/component.homepage';
 import ShopPage from './pages/shop/shop.component';
@@ -10,6 +11,7 @@ import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 import Dashboard from './dashboard/Dashboard';
 import { setCurrentUser } from './redux/user/user.actions';
+import { selectCurrentUser } from './redux/user/user.selectors';
 
 class App extends React.Component {
   unsubscribeFromAuth = null; // Used to close the connection to onAuthStateChanged
@@ -66,8 +68,8 @@ class App extends React.Component {
 
 /* Redirects user from login page once logged in
 *********************************/
-const mapStateToProps = ({ user }) => ({ // destructures the user value from state
-  currentUser: user.currentUser
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser
 });
 
 /* Gets user login status
