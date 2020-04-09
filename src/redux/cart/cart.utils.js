@@ -15,4 +15,24 @@ export const addItemToCart = (cartItems, cartItemToAdd) => {
     }
 
     return [...cartItems, {...cartItemToAdd, quantity: 1}]          // Attaches quantity property the first time the function is run
-}
+};
+
+
+/* Removes an item from the cart or reduces
+    the quantity of an item in the cart
+***********************************************/
+export const removeItemFromCart = (cartItems, cartItemToRemove) => {
+    const existingCartItem = cartItems.find(                        // Searches cartItems array for a match to the cartItemToRemove.id; Sets cartItem to theat id if found 
+        cartItem => cartItem.id === cartItemToRemove.id
+    )
+
+    if (existingCartItem.quantity === 1) {  // Executes only when the item quantity is 1 and removes the item from the cart
+        return cartItems.filter(cartItem => cartItem.id !== cartItemToRemove.id) // Returns a new array with all the cartItem elements minus the item with the matching id
+    }
+
+    return cartItems.map(                                   // iterates through all cart items in the array
+        cartItem => cartItem.id === cartItemToRemove.id ?   // checks if the item matches the id we want to remove
+        { ...cartItem, quantity: cartItem.quantity - 1}     // if matches id, reduce quantity of that item by 1
+        : cartItem                                          // if item doesn't match the id, keep same quantity
+    );
+};

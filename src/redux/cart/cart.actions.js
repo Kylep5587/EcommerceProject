@@ -15,3 +15,19 @@ export const addItem = item => ({
     type: CartActionTypes.ADD_ITEM,
     payload: item
 });
+
+/* Handles removal of a single item from the cart
+*********************************************/
+export const removeItem = item => ({
+    type: CartActionTypes.REMOVE_ITEM,
+    payload: item
+});
+
+/* Used to remove an item from the user cart
+*********************************************/
+export const clearItemFromCart = item => ({
+    type: CartActionTypes.CLEAR_ITEM_FROM_CART,
+    payload: item
+});
+
+
