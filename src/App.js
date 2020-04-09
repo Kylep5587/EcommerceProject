@@ -4,14 +4,17 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import HomePage from './pages/homepage/component.homepage';
-import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/header.component';
-import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 import Dashboard from './dashboard/Dashboard';
 import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
+
+// Page imports
+import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
+import HomePage from './pages/homepage/component.homepage';
+import ShopPage from './pages/shop/shop.component';
+import CheckoutPage from './pages/checkout/checkout.component';
 
 class App extends React.Component {
   unsubscribeFromAuth = null; // Used to close the connection to onAuthStateChanged
@@ -59,6 +62,7 @@ class App extends React.Component {
           <Route path='/shop' component={ShopPage} />
           <Route exact path ='/signin' render={() => 
             this.props.currentUser ? (<Redirect to='/'/>) : (<SignInAndSignUpPage />)} /> 
+          <Route exact path='/checkout' component={CheckoutPage} />
           <Route exact path='/dashboard' component={Dashboard} />
         </Switch>
       </div>  
